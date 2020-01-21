@@ -2,6 +2,7 @@
 Un super bloc Gutenberg pour wordpress permettant d'utiliser les Colonnes de Bootstrap !
 
 ###devDependencies
+
 **bootstrap 4.4.1**
 >pour utiliser bootstrap
 
