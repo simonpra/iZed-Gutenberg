@@ -1,7 +1,7 @@
 # Gutenberg-Columns-Block
 Un super bloc Gutenberg pour wordpress permettant d'utiliser les Colonnes de Bootstrap !
 
-###devDependencies
+### devDependencies
 
 **bootstrap 4.4.1**
 >pour utiliser bootstrap
