@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "bootstrap:build" : "node ./src/scripts/bootstrap-sass"
+        "sass:bootstrap" : "node src/scripts/sass ./src/sass/bootstrap.sass"
     },
     "repository": {
         "type": "git",
