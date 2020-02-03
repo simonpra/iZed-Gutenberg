@@ -6,38 +6,26 @@ Un super bloc Gutenberg pour wordpress permettant d'utiliser les Colonnes de Boo
 **bootstrap 4.4.1**
 >pour utiliser bootstrap
 
-**babel**
->pour configurer Babel correctement afin de convertir le JSX et ES6
->>`@babel/cli`
->>`@babel/core`
->>`@babel/plugin-syntax-dynamic-import`
->>`@babel/register`
->>`babel-loader`
->>`core-js`
->
->presets Babel pour travailler correctement avec le JSX et Gutenberg
-(converti le `import { Dropdown } from '@wordpress/Components'` en `const Dropdown = wp.components.Dropdown` par exemple)
->>`@babel/plugin-syntax-dynamic-import`
->>`@babel/plugin-proposal-class-properties`
->>`@babel/preset-env`
->>`@wordpress/babel-preset-default`
->>`babel-preset-minify`
+**node-sass**
+>pour compiler le SASS / SCSS en un seul fichier CSS. C'est aussi ce qui permet de retirer
+>le strict minimum de `Boostrap`
 
-**Webpack**
-> pour "compiler" le JSX, ES6, SCSS, SASS, LESS et différents formats
->et fournir les fichiers correspondants
->>`webpack`
->>`webpack-cli`
->>`request`
+**@wordpress/components**
+>comprend les composants principaux de Gutenberg ce qui permet de les utiliser avec `@import`
+>et d'avoir les fonctions en mode `DEBUG`
 >
-> avec différents "Plugins" nécessaires pour bien travailler avec Gutenberg
->>`@wordpress/dependency-extraction-webpack-plugin`
->>`css-loader`
->>`file-loader`
->>`mini-css-extract-plugin`
->>`node-sass`
->>`sass-loader`
->>`style-loader`
+>https://github.com/WordPress/gutenberg/tree/master/packages/components
 
-**browsersList**
-> syntax pour convertir les instructions CSS/JS vers les navigateurs concernés
+**@wordpress/scripts**
+>utilitaires et configurations nécessaires pour le développement et déploiement Gutenberg / Wordpress
+>
+>https://github.com/WordPress/gutenberg/tree/master/packages/scripts
+>
+>_(un peu lourd... >500Mo, y a surement moyen d'optimiser ça en ne prenant que les configs webpack + babel)_
+
+**docker-compose.yml**
+>contient les réglages "basiques" d'un container Wordpress et MySQL
+>ainsi qu'un lien du dossier `./` avec le dossier `plugins/gutenberg` de wordpress
+>pour un déploiement rapide du script Gutenberg.
+>
+>http://localhost:9999

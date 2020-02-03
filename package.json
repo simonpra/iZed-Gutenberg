@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "sass:bootstrap" : "node src/scripts/sass ./src/sass/bootstrap.sass"
+        "sass:bootstrap": "node src/scripts/sass ./src/sass/bootstrap.sass"
     },
     "repository": {
         "type": "git",
@@ -18,28 +18,11 @@
     },
     "homepage": "https://github.com/simonpra/Gutenberg-Columns-Block#readme",
     "devDependencies": {
-    "@babel/cli": "latest",
-    "@babel/core": "latest",
-    "@babel/plugin-proposal-class-properties": "latest",
-    "@babel/plugin-syntax-dynamic-import": "latest",
-    "@babel/preset-env": "latest",
-    "@babel/register": "latest",
-    "@wordpress/babel-preset-default": "latest",
-    "@wordpress/dependency-extraction-webpack-plugin": "latest",
-    "babel-loader": "latest",
-    "babel-preset-minify": "latest",
-    "bootstrap": "^4.4.1",
-    "classnames": "latest",
-    "core-js": "latest",
-    "css-loader": "latest",
-    "file-loader": "latest",
-    "mini-css-extract-plugin": "latest",
-    "node-sass": "latest",
-    "request": "latest",
-    "sass-loader": "latest",
-    "style-loader": "latest",
-    "webpack": "latest",
-    "webpack-cli": "latest"
-},
-    "browserslist": "> 0.25%, not dead"
+        "@wordpress/components": "^9.0.0",
+        "@wordpress/scripts": "^6.2.0",
+        "bootstrap": "^4.4.1",
+        "node-sass": "^4.13.1"
+    },
+    "browserslist": "> 0.25%, not dead",
+    "dependencies": {}
 }
