@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "sass:bootstrap": "node src/scripts/sass ./src/sass/bootstrap.sass"
+        "sass:bootstrap": "node src/scripts/sass ./src/sass/bootstrap.sass",
+        "build": "wp-scripts build ./src/index.js --output=./build/js/gutenberg.js"
     },
     "repository": {
         "type": "git",
@@ -23,6 +24,6 @@
         "bootstrap": "^4.4.1",
         "node-sass": "^4.13.1"
     },
-    "browserslist": "> 0.25%, not dead",
+    "browserslist": ["> 0.25%", "not dead"],
     "dependencies": {}
 }

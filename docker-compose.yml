@@ -3,15 +3,42 @@ version: '3.1'
 services:
 
   wordpress:
-    image: wordpress
-    ports:
-      - 9999:80
-    environment:
-      WORDPRESS_DB_PASSWORD: wordpress
-    volumes:
-      - ./:/var/www/html/wp-content/plugins/gutenberg
+    build: .    # image: wordpress:latest avec xDebug - config: Dockerfile
+    container_name: "${PROJECT_NAME}_php"
 
-  mysql:
-    image: mysql:5.7
+    environment:
+      ## Read instructions @ https://www.jetbrains.com/help/phpstorm/2019.3/configuring-xdebug.html
+      ## or watch here https://www.youtube.com/watch?v=1975DErdrfc
+
+      PHP_XDEBUG_REMOTE_HOST: host.docker.internal
+      PHP_XDEBUG_IDEKEY: XDEBUG_KEY
+      # PHP_XDEBUG_REMOTE_LOG: "/var/www/html/xdebug_log"
+
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_PASSWORD: wordpress
+    ports:
+      - 80:80
+    volumes:
+      - ./build:/var/www/html/wp-content/plugins/ized-gutenberg
+
+  #######################################
+  ### MYSQL                            ##
+  #######################################
+  mariadb:
+    image: mariadb:latest
+    container_name: "${PROJECT_NAME}_mariadb"
+    command: mysqld --innodb-flush-method=littlesync --innodb-use-native-aio=OFF --log_bin=ON
+    volumes:
+      - ./_DOCKER/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
+
+#  mysql:
+#    image: mysql:5.7
+#    ports:
+#      - 3306:3306
+#      - 33060:33060
+#    environment:
+#      MYSQL_ROOT_PASSWORD: wordpress

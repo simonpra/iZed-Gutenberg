@@ -1,5 +1,6 @@
 # Gutenberg-Columns-Block
 Un super bloc Gutenberg pour wordpress permettant d'utiliser les Colonnes de Bootstrap !
+Environnement de développement largement inspiré de https://github.com/WordPress/gutenberg-examples
 
 ### devDependencies
 
@@ -24,8 +25,11 @@ Un super bloc Gutenberg pour wordpress permettant d'utiliser les Colonnes de Boo
 >_(un peu lourd... >500Mo, y a surement moyen d'optimiser ça en ne prenant que les configs webpack + babel)_
 
 **docker-compose.yml**
->contient les réglages "basiques" d'un container Wordpress et MySQL
->ainsi qu'un lien du dossier `./` avec le dossier `plugins/gutenberg` de wordpress
+>contient les réglages "basiques" d'un container Wordpress et MySQL (MariaDB)
+>ainsi qu'un lien du dossier `./build` avec le dossier `plugins/ized-gutenberg` de wordpress
 >pour un déploiement rapide du script Gutenberg.
 >
->http://localhost:9999
+>Le container wordpress est construit à partir de l'image `wordpress:latest` en y ajoutant
+>la library et configuration xDebug pour php. Clé IDE pour xDebug: `XDEBUG_KEY`
+>
+>http://localhost
