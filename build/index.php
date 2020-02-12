@@ -33,17 +33,27 @@ function gutenberg_ized_register_block() {
         return;
     }
 
+    //--- PATH vers le fichier BUILD du block
     $path_script = plugins_url( 'js/gutenberg.js', __FILE__ );
+    $path_script_php = plugin_dir_path(__FILE__).'js/gutenberg.asset.php';
+
+    //--- Récupère les DEPENDENCIES du BLOCK
+	$asset_file = include( $path_script_php );
 
     wp_register_script(
         'ized-gutenberg',
         $path_script,
-        array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
+	    $asset_file['dependencies'],
         '1.0'
     );
 
+    //---- OPTIONEL pour les block n'utilisant que JS / REACT
+	//---- à utiliser principallement avec 'render_callback' afin
+	//---- d'avoir un traitement PHP (serveur) du block
+	//---- spécifiquement pour des blocks dynamiques
     register_block_type( 'gutenberg-ized/section-column', array(
         'editor_script' => 'ized-gutenberg',    // doit correspondre au "handle" de wp_register_script()
+	    // 'render_callback' => 'callback_function'
     ) );
 
     if ( function_exists( 'wp_set_script_translations' ) ) {
@@ -58,3 +68,16 @@ function gutenberg_ized_register_block() {
 
 }
 add_action( 'admin_init', 'gutenberg_ized_register_block' );
+
+/**
+ * Register la feuille de style bootstrap.css contenant uniquement les GRID et ORDER
+ * afin d'avoir les style Bootstrap dans le FrontEnd
+ * /!\ A DESACTIVER /!\ si le thème principal utilise déjà Bootstrap
+ */
+function register_bootstrap_css() {
+	//--- URL vers le fichier CSS
+	$url_css = plugins_url( 'css/bootstrap.css', __FILE__ );
+
+	wp_enqueue_style( 'ized-bootstrap', $url_css, array(), '1.0' );
+}
+add_action( 'init', 'register_bootstrap_css' );

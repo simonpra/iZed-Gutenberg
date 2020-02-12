@@ -1,0 +1,2 @@
+import './registerSection';
+import './registerCol';

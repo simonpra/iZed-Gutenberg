@@ -1,0 +1,91 @@
+.ized-section-type-container
+    margin-bottom: 15px
+    margin-top: 5px
+    .ized-section-type
+        text-transform: uppercase
+        padding: 3px 15px
+        padding-bottom: 5px
+        position: relative
+        cursor: pointer
+        transition: all .5s
+        font-weight: bold
+        background-color: transparent
+        display: inline-block
+        border-radius: 3px
+        &:before, &:after
+            content: '['
+            position: absolute
+            transition: all .3s
+            top: 3px
+        &:before
+            content: '['
+            left: 8px
+        &:after
+            content: ']'
+            right: 8px
+        &:hover:before
+            left: 5px
+        &:hover:after
+            right: 5px
+    .ized-section-type.active
+        background-color: #555d66
+        color: #fff
+
+.ized-bootstrap-size
+    display: flex
+    .ized-bootstrap-size-label
+        min-width: 45px
+        text-align: center
+        padding: 0 5px
+        font-size: 16px
+        text-transform: uppercase
+        line-height: 30px
+        margin-right: 5px
+        margin-top: 1px
+        margin-bottom: auto
+        background-color: #555d66
+        color: #fff
+        border-radius: 3px
+    .ized-bootstrap-size-select
+        flex-basis: 100%
+        margin-bottom: 0 !important
+
+.ized-section-layout-container
+    display: flex
+    flex-wrap: wrap
+    .ized-section-layout
+        flex-basis: 25%
+        padding: 5px
+        .ized-section-layout-row
+            margin-right: -2px
+            margin-left: -2px
+            border: 1px solid #aaa
+            border-radius: 3px
+            padding: 2px
+            height: 100%
+            transition: all .3s
+            cursor: pointer
+            .ized-section-layout-col
+                padding: 1px
+                &:before
+                    content: ''
+                    background-color: #555d66
+                    min-height: 15px
+                    display: block
+                    transition: all .3s
+        .ized-section-layout-row:hover, .ized-section-layout-row.active
+            background-color: #007cba
+            border-color: #007cba
+            .ized-section-layout-col:before
+                background-color: #fff
+
+//--- LAYOUT EDITOR ---//
+.ized-section-row
+    &> .block-editor-inner-blocks
+        &> .block-editor-block-list__layout
+            display: flex
+            margin: 0 -15px
+            flex-wrap: wrap
+
+//--- BOOTSTRAP GRID ---//
+@import 'bootstrap'

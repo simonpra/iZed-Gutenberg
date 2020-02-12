@@ -1,3 +1,1 @@
-console.log( () => {
-    return 'testing babel';
-} );
+import './blocks/gutenberg-blocks';
