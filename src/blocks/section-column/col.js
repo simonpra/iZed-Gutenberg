@@ -1,14 +1,15 @@
 import { Component } from '@wordpress/element';
-import { InnerBlocks, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, CheckboxControl } from '@wordpress/components';
-import { select } from '@wordpress/data';
+import { InnerBlocks, InspectorControls, BlockControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, CheckboxControl, Toolbar, Button } from '@wordpress/components';
+import { select, dispatch } from '@wordpress/data';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
 /******************************************
  * VARs
  ******************************************/
-const { getBlockCount } = select( 'core/block-editor' );
+const { getBlockCount, getBlockRootClientId } = select( 'core/block-editor' );
+const { removeBlock } = dispatch( 'core/block-editor' );
 
 //--- mapping des Tailles Bootstrap
 const sizeMap = {
@@ -57,8 +58,9 @@ export class ColEdit extends Component {
         super( ...arguments );
 
         this.BootstrapSizeMenu = this.BootstrapSizeMenu.bind( this );
-        this.setSize = this.setSize.bind( this );
         this.setEtat = this.setEtat.bind( this );
+        this.setSize = this.setSize.bind( this );
+        this.removeCol = this.removeCol.bind( this );
 
         //--- VAR STATE
         this.state = {  allSize: false,
@@ -149,6 +151,21 @@ export class ColEdit extends Component {
         )
     }
 
+    removeCol() {
+        const { clientId } = this.props;
+        // Get root element COLUMNS
+        const rootId = getBlockRootClientId(clientId);
+        var rootCols = getBlockCount( rootId );
+
+        rootCols --;
+
+        if(rootCols===0)
+            removeBlock(rootId);
+        else
+            removeBlock(clientId);
+
+    }
+
     render() {
         const { clientId, setAttributes, attributes } = this.props;
         const { allSize, allOrder } = this.state;
@@ -168,6 +185,17 @@ export class ColEdit extends Component {
 
         return(
             <>
+                <BlockControls>
+                    <Toolbar>
+                        <Button
+                            icon={ 'minus' }
+                            label={ __('supprimer la colonne') }
+                            onClick={ this.removeCol }
+                            className={ '' }
+                        />
+                    </Toolbar>
+                </BlockControls>
+
                 <InspectorControls>
                     <PanelBody title={ __( 'Column Size' ) } >
                         { sizeArray.map( (size)=><this.BootstrapSizeMenu type={ 'col' } size={ size }/> ) }

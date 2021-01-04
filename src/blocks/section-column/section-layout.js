@@ -46,7 +46,7 @@ export function LayoutBlock( {layout, onClick} ) {
 
 export function Layouts( {setLayout} ) {
     function layoutClick( layout ) {
-        setLayout( { layout: layout, settingLayout: true } );
+        setLayout( { layout: layout, columns: layout.length, settingLayout: true } );
     }
 
     return(
@@ -54,7 +54,7 @@ export function Layouts( {setLayout} ) {
             { layoutsArray.map(
                 (val) => {
                     return(
-                        <div className={ 'ized-section-layout' }>
+                        <div className={ 'ized-section-layout ized-section-row' }>
                             <LayoutBlock
                                 layout={ val }
                                 onClick={ layoutClick }

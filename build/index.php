@@ -47,8 +47,12 @@ function gutenberg_ized_register_block() {
         '1.0'
     );
 
-    //---- OPTIONEL pour les block n'utilisant que JS / REACT
-	//---- à utiliser principallement avec 'render_callback' afin
+    //--- Fichier CSS de l'affichage du/des blocks dans l'admin
+	$url_css = plugins_url( 'css/admin-styles.css', __FILE__ );
+	wp_enqueue_style( 'ized-bootstrap', $url_css, array(), '1.0' );
+
+    //---- OPTIONNEL pour les block n'utilisant que JS / REACT
+	//---- à utiliser principalement avec 'render_callback' afin
 	//---- d'avoir un traitement PHP (serveur) du block
 	//---- spécifiquement pour des blocks dynamiques
     register_block_type( 'gutenberg-ized/section-column', array(
@@ -68,16 +72,3 @@ function gutenberg_ized_register_block() {
 
 }
 add_action( 'admin_init', 'gutenberg_ized_register_block' );
-
-/**
- * Register la feuille de style bootstrap.css contenant uniquement les GRID et ORDER
- * afin d'avoir les style Bootstrap dans le FrontEnd
- * /!\ A DESACTIVER /!\ si le thème principal utilise déjà Bootstrap
- */
-function register_bootstrap_css() {
-	//--- URL vers le fichier CSS
-	$url_css = plugins_url( 'css/bootstrap.css', __FILE__ );
-
-	wp_enqueue_style( 'ized-bootstrap', $url_css, array(), '1.0' );
-}
-add_action( 'init', 'register_bootstrap_css' );

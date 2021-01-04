@@ -84,8 +84,23 @@
     &> .block-editor-inner-blocks
         &> .block-editor-block-list__layout
             display: flex
-            margin: 0 -15px
             flex-wrap: wrap
+            div[data-type="ized-gutenberg/section-col"]
+                margin-top: 0px
+                margin-bottom: 1px
+                &:before
+                    content: ''
+                    position: absolute
+                    top: 2px
+                    left: 2px
+                    width: calc(100% - 4px)
+                    height: calc(100% - 4px)
+                    border: 1px dotted #aaa
+                &.has-child-selected:before
+                    border: 1px dashed #666
+
+            div[data-type="core/spacer"]
+                background: repeating-linear-gradient(90deg, #fff, #fff 3px, #fafafa 3px, #f5f5f5 6px)
 
 //--- BOOTSTRAP GRID ---//
-@import 'bootstrap'
+@import './bootstrap.sass'

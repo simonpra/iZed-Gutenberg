@@ -7,11 +7,9 @@ services:
     container_name: "${PROJECT_NAME}_php"
 
     environment:
-      ## Read instructions @ https://www.jetbrains.com/help/phpstorm/2019.3/configuring-xdebug.html
-      ## or watch here https://www.youtube.com/watch?v=1975DErdrfc
 
       PHP_XDEBUG_REMOTE_HOST: host.docker.internal
-      PHP_XDEBUG_IDEKEY: XDEBUG_KEY
+      # PHP_XDEBUG_IDEKEY: XDEBUG_KEY
       # PHP_XDEBUG_REMOTE_LOG: "/var/www/html/xdebug_log"
 
       WORDPRESS_DB_HOST: mariadb

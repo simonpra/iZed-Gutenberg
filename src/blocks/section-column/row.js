@@ -49,6 +49,7 @@ export class editColumns extends Component {
         this.ButtonType = this.ButtonType.bind( this );
         this.layoutBlocks = this.layoutBlocks.bind( this );
         this.setEtat = this.setEtat.bind( this );
+        this.setLayout = this.setLayout.bind( this );
 
         //--- VAR STATE
         this.state = {  layout: false };
@@ -87,6 +88,7 @@ export class editColumns extends Component {
         let innerBlocks = getBlocks(clientId);
 
         //--- TODO: supprimer les innerBlocks vides si le layout est plus "petit"
+        console.log( innerBlocks );
 
         for (let i = 0; i < layout.length; i++) {
             if (innerBlocks[i] !== undefined) {
@@ -98,6 +100,20 @@ export class editColumns extends Component {
             }
         }
 
+        //--- supprimer les innerBlocks supplémentaires si ils sont vides.
+        if( innerBlocks.length > layout.length ) {
+            let splice = true;
+            for( let i=layout.length; i<innerBlocks.length; i++ ) {
+
+                //--- si un des blocks suivant contient qql chose, alors on ne supprime rien !
+                if( innerBlocks[i].innerBlocks.length>0 )
+                    splice = false;
+
+            }
+            if( splice )
+                innerBlocks.splice( layout.length );
+        }
+
         //--- mets à jour les innerBlocks selon le layout voulu
         replaceInnerBlocks(clientId, innerBlocks, false);
 
@@ -105,6 +121,12 @@ export class editColumns extends Component {
     }
 
     setEtat( obj ) {
+        this.setState( obj );
+    }
+
+    setLayout( obj ) {
+        this.props.attributes.columns = obj.columns;
+        console.log( this );
         this.setState( obj );
     }
 
@@ -142,7 +164,7 @@ export class editColumns extends Component {
 
                     </PanelBody>
                     <PanelBody title={__('Layout', 'ized-gutenberg')}>
-                        <Layouts setLayout={ this.setEtat } />
+                        <Layouts setLayout={ this.setLayout } />
                     </PanelBody>
                 </InspectorControls>
                 <div className={classes}>

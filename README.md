@@ -4,25 +4,12 @@ Environnement de développement largement inspiré de https://github.com/WordPre
 
 ### devDependencies
 
-**bootstrap 4.4.1**
+**bootstrap 4.x**
 >pour utiliser bootstrap
 
-**node-sass**
+**dart-sass**
 >pour compiler le SASS / SCSS en un seul fichier CSS. C'est aussi ce qui permet de retirer
 >le strict minimum de `Boostrap`
-
-**@wordpress/components**
->comprend les composants principaux de Gutenberg ce qui permet de les utiliser avec `@import`
->et d'avoir les fonctions en mode `DEBUG`
->
->https://github.com/WordPress/gutenberg/tree/master/packages/components
-
-**@wordpress/scripts**
->utilitaires et configurations nécessaires pour le développement et déploiement Gutenberg / Wordpress
->
->https://github.com/WordPress/gutenberg/tree/master/packages/scripts
->
->_(un peu lourd... >500Mo, y a surement moyen d'optimiser ça en ne prenant que les configs webpack + babel)_
 
 **docker-compose.yml**
 >contient les réglages "basiques" d'un container Wordpress et MySQL (MariaDB)
@@ -30,6 +17,18 @@ Environnement de développement largement inspiré de https://github.com/WordPre
 >pour un déploiement rapide du script Gutenberg.
 >
 >Le container wordpress est construit à partir de l'image `wordpress:latest` en y ajoutant
->la library et configuration xDebug pour php. Clé IDE pour xDebug: `XDEBUG_KEY`
+>la library et configuration xDebug pour php.
+> 
+>Préparé pour xDebug 3. `PHP_XDEBUG_REMOTE_HOST: host.docker.internal` du fichier
+>`docker-compose.yml` contient l'URL de connection pour lier xDebug à l'IDE.
 >
 >http://localhost
+
+**package.json**
+>Pour voir l'ensemble des dépendances, voir le fichier `package.json` et pour les
+>installer `npm install`
+
+**webpack.config.js**
+> En attendant une meilleure version du Read-Me `webpack.md`, lire les commentaires
+> du fichier `webpack.config.js` et du fichier `./scripts/sass/ized-sass.js`
+> qui sert de "loader" SASS pour _webpack_
