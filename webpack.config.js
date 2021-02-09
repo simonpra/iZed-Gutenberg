@@ -99,28 +99,38 @@ module.exports = {
      * WEBPACK optimization.splitChunks.cacheGroups
      * permet de spécifier un "cacheGroups" pour les "STYLES"
      * afin d'extraire tous les fichiers SASS/CSS dans un seul fichier (chunks: 'all')
+     * spécifiés par le [name] du cacheGroups.
+     *
+     * /!\ les fichiers destinés à l'admin doivent se terminer par admin.sass ou admin.css ou admin.scss
+     * /!\ les fichiers destinés au front-end doivent se terminer par styles.sass ou styles.css ou styles.scss
      *
      * https://webpack.js.org/plugins/mini-css-extract-plugin/#extracting-all-css-in-a-single-file
      */
-    // optimization: {
-    //     splitChunks: {
-    //         cacheGroups: {
-    //             styles: {
-    //                 name: 'styles',
-    //                 test: /\.s?([ac])ss$/,
-    //                 chunks: 'all',
-    //                 enforce: true,
-    //             },
-    //         },
-    //     },
-    // },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                admin: {
+                    name: 'styles-admin',
+                    test: /admin\.s?([ac])ss$/,
+                    chunks: 'all',
+                    enforce: true,
+                },
+                styles: {
+                    name: 'styles',
+                    test: /styles\.s?([ac])ss$/,
+                    chunks: 'all',
+                    enforce: true,
+                },
+            },
+        },
+    },
 
     plugins: [
         //--- injectPolyfill:true afin d'y inclure les Polyfills BABEL
         new DependencyExtractionWebpackPlugin( { injectPolyfill: true } ),
         //--- filename étant le chemin de sortie du fichier CSS qui sera "compilé"
         new MiniCssExtractPlugin({
-            filename: 'css/admin-styles.css',
+            filename: 'css/[name].css',
         }),
     ]
 };

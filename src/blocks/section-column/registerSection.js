@@ -50,7 +50,7 @@ registerBlockType( 'ized-gutenberg/section-row', {
      * This data is used to construct a preview for the block to be shown
      * in the Inspector Help Panel when the user mouses over the block.
      */
-    example: {},
+    example: null,
 
     /**
      * La fonction edit(), c'est la fonction render() de REACT qui sera utilisée

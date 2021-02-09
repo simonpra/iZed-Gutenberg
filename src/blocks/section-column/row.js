@@ -8,8 +8,12 @@ import { __ } from '@wordpress/i18n';
 
 //--- Internals
 import { Layouts } from './section-layout';
-
-import './style.sass';
+//--- Fichier SASS pour l'admin
+//---   Permet d'être récupéré par Webpack avec la regex /admin\.s?([ac])ss$/
+import './styles-admin.sass';
+//--- Fichier SASS pour le Front-End
+//---   Permet d'être récupéré par Webpack avec la regex /styles\.s?([ac])ss$/
+import './styles.sass';
 
 /******************************************
  * VARs
