@@ -92,7 +92,7 @@ export class editColumns extends Component {
         let innerBlocks = getBlocks(clientId);
 
         //--- TODO: supprimer les innerBlocks vides si le layout est plus "petit"
-        console.log( innerBlocks );
+        // console.log( innerBlocks );
 
         for (let i = 0; i < layout.length; i++) {
             if (innerBlocks[i] !== undefined) {
@@ -108,11 +108,9 @@ export class editColumns extends Component {
         if( innerBlocks.length > layout.length ) {
             let splice = true;
             for( let i=layout.length; i<innerBlocks.length; i++ ) {
-
                 //--- si un des blocks suivant contient qql chose, alors on ne supprime rien !
                 if( innerBlocks[i].innerBlocks.length>0 )
                     splice = false;
-
             }
             if( splice )
                 innerBlocks.splice( layout.length );
@@ -130,7 +128,6 @@ export class editColumns extends Component {
 
     setLayout( obj ) {
         this.props.attributes.columns = obj.columns;
-        console.log( this );
         this.setState( obj );
     }
 
@@ -188,8 +185,8 @@ export class editColumns extends Component {
  ******************************************/
 export function saveColumns(props) {
     const { fullWidth, type } = props.attributes;
-    var classes = 'row';
-    var TagName = 'div';
+    let classes = 'row';
+    let TagName = 'div';
 
     if( fullWidth )
         classes = 'row full-width';

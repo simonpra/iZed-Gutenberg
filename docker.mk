@@ -4,17 +4,17 @@ default: up
 
 up:
 	@echo "Starting up DEV containers for $(PROJECT_NAME)..."
-	docker-compose -f docker-compose.yml up -d
+	docker compose -f docker-compose.yml up -d
 
 down: stop
 
 stop:
 	@echo "Stopping containers for $(PROJECT_NAME)..."
-	@docker-compose -f docker-compose.yml stop
+	@docker compose -f docker-compose.yml stop
 
 prune:
 	@echo "Removing containers for $(PROJECT_NAME)..."
-	@docker-compose down -v
+	@docker compose down -v
 
 ps:
 	@docker ps --filter name='$(PROJECT_NAME)*'

@@ -6,9 +6,9 @@ _**@wordpress/scripts/config/webpack.config.js**_ avec explications :
 
 ### _Dependencies_
 
-- `webpack : ^5.11.x`
+- `webpack : ^latest`
 
-version **5.11** de WEBPACK pour profiter des dernières fonctionnalités !
+version **latest** ( _5.61.0 au 2021.11.2_ ) de WEBPACK pour profiter des dernières fonctionnalités !
 
 - `babel-loader`
 

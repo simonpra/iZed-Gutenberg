@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { colAttributes, ColEdit, HOCbootstrap, saveColumn } from './col';
+import { colAttributes, ColEdit, HOCbootstrap, saveColumn } from './col_HOOK';
 
 /**
  * Enregistre le bloc pour son utilisation avec Gutenberg
@@ -8,6 +8,7 @@ import { colAttributes, ColEdit, HOCbootstrap, saveColumn } from './col';
  * https://developer.wordpress.org/block-editor/developers/block-api/block-registration/
  */
 registerBlockType( 'ized-gutenberg/section-col', {
+    apiVersion: 2,
 
     title: __( 'Colonne', 'ized-gutenberg' ),
 

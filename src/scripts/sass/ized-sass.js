@@ -33,6 +33,8 @@ const postCSS = function( css ) {
     return postcss([autoprefixer()]).process(css);
 };
 
+const { readFileSync } = require(`fs`);
+
 /**
  * Fonction pour résoudre les @import présent dans les SASS/SCSS
  * https://github.com/sass/node-sass#importer--v200---experimental
@@ -47,8 +49,10 @@ const postCSS = function( css ) {
  */
 const importSass = function( url, prev, context ) {
     if( url.match(/^~/) ) {
-        const module_path = './node_modules/';
-        url = module_path + url.replace('~', '');
+        url = url.replace('~', '');
+        //--- fix avec YARN pour trouver le bon chemin correspondant
+        //--- (yarn "encapsule" les packages dans des ZIP)
+        url = require.resolve( url );
     } else {
         url = context+'/'+url;
     }

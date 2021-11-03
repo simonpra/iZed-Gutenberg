@@ -3,15 +3,20 @@ version: '3.1'
 services:
 
   wordpress:
-    build: .    # image: wordpress:latest avec xDebug - config: Dockerfile
+    build:                                            # image: wordpress:latest avec xDebug - config: Dockerfile
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        ## ARGS doivent être inclus dans la commande BUILD
+        ## car les ARGS sont uniquement disponibles durant le BUILD process
+        ## https://docs.docker.com/compose/compose-file/compose-file-v3/#args
+        xdebug_remote_host: host.docker.internal
+        xdebug_mode: debug                            # develop,debug,profile # https://xdebug.org/docs/all_settings#mode
+        xdebug_output_dir: /var/log/xdebug            # https://xdebug.org/docs/all_settings#mode
     container_name: "${PROJECT_NAME}_php"
 
     environment:
-
-      PHP_XDEBUG_REMOTE_HOST: host.docker.internal
-      # PHP_XDEBUG_IDEKEY: XDEBUG_KEY
-      # PHP_XDEBUG_REMOTE_LOG: "/var/www/html/xdebug_log"
-
+      ## variables ENV propre à l'image wordpress
       WORDPRESS_DB_HOST: mariadb
       WORDPRESS_DB_PASSWORD: wordpress
     ports:

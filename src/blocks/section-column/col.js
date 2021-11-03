@@ -1,7 +1,7 @@
 import { Component } from '@wordpress/element';
 import { InnerBlocks, InspectorControls, BlockControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, CheckboxControl, Toolbar, Button } from '@wordpress/components';
-import { select, dispatch } from '@wordpress/data';
+import { select, dispatch, useDispatch, withDispatch } from '@wordpress/data';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
@@ -30,10 +30,10 @@ const arrayMap = [
 //--- Taille par défaut d'une nouvelle colonne
 const defaultSizes = [
     12,     // XS
-    0,      // SM
+    'auto',      // SM
     6,      // MD
-    0,      // LG
-    0       // XL
+    'auto',      // LG
+    'auto'       // XL
 ];
 
 /******************************************
@@ -43,7 +43,7 @@ const defaultSizes = [
 export var colAttributes = {
     className: {type:'string'},
     bootstrapSize: {type: 'array', default: defaultSizes},
-    bootstrapOffset: {type: 'array', default: [0,0,0,0,0]}
+    bootstrapOffset: {type: 'array', default: ['auto','auto','auto','auto','auto']}
 };
 
 /******************************************
@@ -53,14 +53,13 @@ export var colAttributes = {
  * avec des "ajouts" propres à Gutenberg
  * (ex: attributes, setAttributes)
  ******************************************/
-export class ColEdit extends Component {
+class Edit extends Component {
     constructor() {
         super( ...arguments );
 
         this.BootstrapSizeMenu = this.BootstrapSizeMenu.bind( this );
         this.setEtat = this.setEtat.bind( this );
         this.setSize = this.setSize.bind( this );
-        this.removeCol = this.removeCol.bind( this );
 
         //--- VAR STATE
         this.state = {  allSize: false,
@@ -82,7 +81,7 @@ export class ColEdit extends Component {
     setSize( {size, col, type} ) {
         const { attributes, setAttributes } = this.props;
         const { bootstrapSize, bootstrapOffset } = attributes;
-        var numSize, replace, newSize=[];
+        let numSize, replace, newSize=[];
 
         switch( type ) {
             case 'col': replace = bootstrapSize; break;
@@ -121,7 +120,7 @@ export class ColEdit extends Component {
         let numSize;
         let options = [
             {   label: 'auto',
-                value: 0 }
+                value: 'auto' }
         ];
 
         //--- retrouve le N° de mappage correspondant
@@ -131,10 +130,10 @@ export class ColEdit extends Component {
 
         //--- construction des options sur 12 col
         //--- idem pour SIZE que ORDER
-        for( let i=0; i<12; i++ ) {
+        for( let i=0; i<=12; i++ ) {
             options.push(
-                {   label: i+1,
-                    value: i+1 }
+                {   label: i,
+                    value: i }
             );
         }
 
@@ -145,30 +144,17 @@ export class ColEdit extends Component {
                     value={ value }
                     className={ 'ized-bootstrap-size-select' }
                     options={ options }
-                    onChange={ (val) => this.setSize( {size:size, col:parseInt(val), type:type} ) }
+                    onChange={ (val) => this.setSize( {size:size, col:val, type:type} ) }
                 />
             </div>
         )
     }
 
-    removeCol() {
-        const { clientId } = this.props;
-        // Get root element COLUMNS
-        const rootId = getBlockRootClientId(clientId);
-        var rootCols = getBlockCount( rootId );
-
-        rootCols --;
-
-        if(rootCols===0)
-            removeBlock(rootId);
-        else
-            removeBlock(clientId);
-
-    }
-
     render() {
         const { clientId, setAttributes, attributes } = this.props;
         const { allSize, allOrder } = this.state;
+        console.log( '/////////// PROPS //////////' );
+        console.log( this.props );
 
         /**
          * Si ce bloc contient quelque chose (children)
@@ -180,8 +166,8 @@ export class ColEdit extends Component {
          * Les tailles XL - MD - XS sont affichées par défaut (allSize==false)
          * Sinon afficher toutes les tailles (allSize==true)
          */
-        var sizeArray  =  allSize ? [ 'xs', 'sm', 'md', 'lg', 'xl' ] : [ 'xs', 'md', 'xl' ];
-        var orderArray = allOrder ? [ 'xs', 'sm', 'md', 'lg', 'xl' ] : [ 'xs', 'md', 'xl' ];
+        let sizeArray  =  allSize ? [ 'xs', 'sm', 'md', 'lg', 'xl' ] : [ 'xs', 'md', 'xl' ];
+        let orderArray = allOrder ? [ 'xs', 'sm', 'md', 'lg', 'xl' ] : [ 'xs', 'md', 'xl' ];
 
         return(
             <>
@@ -190,7 +176,7 @@ export class ColEdit extends Component {
                         <Button
                             icon={ 'minus' }
                             label={ __('supprimer la colonne') }
-                            onClick={ this.removeCol }
+                            onClick={ ()=>this.props.removeCol(clientId) }
                             className={ '' }
                         />
                     </Toolbar>
@@ -230,6 +216,27 @@ export class ColEdit extends Component {
     }
 }
 
+export const ColEdit = withDispatch( ( dispatch, props )=>{
+    // const { clientId } = props;
+    const { removeBlock } = dispatch('core/block-editor');
+
+    const removeCol = function(clientId) {
+        // Get root element COLUMNS
+        const rootId = getBlockRootClientId(clientId);
+        let rootCols = getBlockCount( rootId );
+
+        rootCols --;
+
+        if(rootCols===0)
+            removeBlock(rootId);
+        else {
+            removeBlock(clientId, false);
+        }
+    };
+
+    return { removeCol: removeCol };
+} )(Edit);
+
 /******************************************
  * HIGH ORDER COMPONENT
  * afin d'accéder au DOM racine du composant [BlockListBlock]
@@ -241,12 +248,12 @@ export const HOCbootstrap = createHigherOrderComponent( ( BlockListBlock ) => {
         if( props.name === 'ized-gutenberg/section-col' ) {
             const { attributes } = props;
             const { bootstrapSize, bootstrapOffset } = attributes;
-            var className = '';
+            let className = '';
 
-            if( bootstrapSize ) {
+            if( bootstrapSize && (bootstrapSize[2]!=='auto' || bootstrapSize[2]!==0) ) {
                 className = 'col-md-'+bootstrapSize[2];
             }
-            if( bootstrapOffset && bootstrapOffset[2]!==0 ) {
+            if( bootstrapOffset && bootstrapOffset[2]!=='auto' ) {
                 className += ' order-md-'+bootstrapOffset[2];
             }
 
@@ -262,7 +269,7 @@ export const HOCbootstrap = createHigherOrderComponent( ( BlockListBlock ) => {
  ******************************************/
 export function saveColumn(props) {
     const { bootstrapSize, bootstrapOffset } = props.attributes;
-    var classBlock = '';
+    let classBlock = '';
 
     /**
      * Génère les class Bootstrap selon les attributs.
@@ -274,11 +281,11 @@ export function saveColumn(props) {
         bootstrapArray.map(
             (val, i) => {
                 let prepend;
-                if( val>0 ) {
+                if( val!=='auto' ) {
 
                     //--- génère col-XX || order-XX pour la taille XS
                     //--- ou col-sm-XX || order-sm-XX en fonction des autres tailles
-                    if( i==0 )
+                    if( i===0 )
                         prepend = type;
                     else
                         prepend = type + arrayMap[i] +'-';

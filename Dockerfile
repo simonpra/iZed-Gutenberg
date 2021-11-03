@@ -1,7 +1,25 @@
+### configuration de XDEBUG 3
+### les ARGs doivent être défini avant et après le FROM
+### https://docs.docker.com/compose/compose-file/compose-file-v3/#args
+ARG xdebug_remote_host
+ARG xdebug_mode
+ARG xdebug_output_dir
+
 FROM wordpress:latest
 
-#xDebug Config
-RUN            apt-get update && pecl install xdebug \
-            && docker-php-ext-enable xdebug \
-            && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-            && echo "xdebug.client_host = ${PHP_XDEBUG_REMOTE_HOST}" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+# configuration de XDEBUG 3
+ARG xdebug_remote_host
+ARG xdebug_mode
+ARG xdebug_output_dir
+
+RUN apt-get update \
+    # XDEBUG
+    && pecl install xdebug-3.0.0 \
+    && docker-php-ext-enable xdebug
+
+RUN set -eux; \
+   { \
+       echo "xdebug.mode=${xdebug_mode}"; \
+       echo "xdebug.client_host=${xdebug_remote_host}"; \
+       echo "xdebug.output_dir=${xdebug_output_dir}"; \
+   } > /usr/local/etc/php/conf.d/xdebug.ini

@@ -52,7 +52,7 @@ Les blocks enfants "Colonne" possèdent des propriétés de tailles "responsive"
 
 ### devDependencies
 
-**bootstrap 4.x**
+**bootstrap 5.x**
 >pour utiliser bootstrap
 
 **dart-sass**
@@ -65,16 +65,19 @@ Les blocks enfants "Colonne" possèdent des propriétés de tailles "responsive"
 >pour un déploiement rapide du script Gutenberg.
 >
 >Le container wordpress est construit à partir de l'image `wordpress:latest` en y ajoutant
->la library et configuration xDebug pour php.
+>la librarie et la configuration xDebug pour php.
 > 
->Préparé pour xDebug 3. `PHP_XDEBUG_REMOTE_HOST: host.docker.internal` du fichier
->`docker-compose.yml` contient l'URL de connection pour lier xDebug à l'IDE.
+>Préparé pour xDebug 3. Le fichier `docker-compose.yml` contient des arguments propres à xDebug:<br>
+   `xdebug_remote_host: host.docker.internal` <br>
+   `xdebug_mode: debug  #develop,debug,profile`<br>
+   `xdebug_output_dir: /var/log/xdebug`<br>
+> qui ne sont effectifs que lorsque de la création du l'image DOCKER.
 >
 >http://localhost
 
 **package.json**
 >Pour voir l'ensemble des dépendances, voir le fichier `package.json` et pour les
->installer `npm install`
+>installer `npm install` ou `yarn install`
 
 **webpack.config.js**
 > En attendant une meilleure version du Read-Me `webpack.md`, lire les commentaires
