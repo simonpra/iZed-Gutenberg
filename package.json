@@ -35,5 +35,6 @@
     "browserslist": [
         "> 0.25%",
         "not dead"
-    ]
+    ],
+    "packageManager": "yarn@3.2.3"
 }

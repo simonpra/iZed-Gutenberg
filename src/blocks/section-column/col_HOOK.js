@@ -267,7 +267,12 @@ export const HOCbootstrap = createHigherOrderComponent( ( BlockListBlock ) => {
  * COLUMNS BLOCK SAVE
  ******************************************/
 export function saveColumn(props) {
-    const { bootstrapSize, bootstrapOffset } = props.attributes;
+    const
+    {
+        bootstrapSize,
+        bootstrapOffset,
+        className
+    } = props.attributes;
     let classBlock = '';
 
     /**
@@ -299,8 +304,8 @@ export function saveColumn(props) {
     setClass(bootstrapSize, 'col-' );
     setClass(bootstrapOffset, 'order-' );
 
-    if( props.className )
-        classBlock += ' '+props.className;
+    if( className )
+        classBlock += ' '+className;
 
     return (
         <div className={ classBlock }>
